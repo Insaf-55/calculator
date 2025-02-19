@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Calculator</title>
     <style>
-        /* body {
-            background-color: rgb(255, 238, 0);
+        /* General Styles (For Larger Screens) */
+        body {
+            background-color: #111;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         .m-parent {
@@ -15,11 +23,12 @@
             justify-content: center;
             align-items: center;
             padding: 0;
+            width: 100%;
         }
 
         .parent {
-            border: 2px solid black;
-            background-color: black;
+            border: 2px solid cyan;
+            background-color: #000;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -27,122 +36,107 @@
             height: 570px;
             width: 500px;
             border-radius: 15px;
-        }
-
-        #child1 {
-            border: 2px solid rgb(208, 183, 183);
-            border-radius: 5px;
-            height: 85px;
-            width: 460px;
-            background-color: rgb(255, 255, 255);
-            margin-top: 5px;
-            margin-bottom: 1px;
-            text-align: right;
-            font-size: 50px;
-
-        }
-
-        #child1:hover {
-            box-shadow: 8px 8px 8px rgb(255, 200, 0);
-        }
-
-        .calculator-display {
-            width: 200px;
-            height: 50px;
-            text-align: right;
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            border: 1px solid black;
+            box-shadow: 0 0 20px cyan;
             padding: 10px;
         }
 
-        .calculator-display .shrink {
-            font-size: 16px;
-            /* Reduce font size when content overflows */
-        /* } */
-
-        /* .child2 {
-            height: 370px;
-            width: 460px;
-            margin-top: 5px;
-            margin-bottom: 1px;
-        }
-
-        .child3 {
-            height: 65px;
-            width: 460px;
-            margin-top: 1px;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #child1 {
+            border: 2px solid magenta;
+            border-radius: 5px;
+            height: 85px;
+            width: 90%;
+            background-color: black;
+            color: cyan;
+            font-size: 50px;
+            text-align: right;
+            padding: 10px;
+            box-shadow: 0 0 10px magenta;
         }
 
         button {
-            height: 50px;
-            width: 70px;
+            height: 52px;
+            width: 73px;
             margin: 10px;
-            margin-left: 30px;
-            margin-top: 15px;
-            background-color: rgb(255, 0, 0);
-            border: 2px solid rgb(15, 7, 232);
+            background-color: black;
+            border: 2px solid cyan;
             border-radius: 6px;
             font-size: 25px;
-            box-shadow: 6px 7px 20px transparent;
+            color: cyan;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 10px cyan;
         }
 
         button:hover {
             font-size: 27px;
-            box-shadow: 5px 5px 5px white;
+            box-shadow: 0 0 20px cyan;
+            transform: scale(1.1);
         }
 
-        .row1 {
-            margin: 10px;
-            margin-left: 30px;
-            margin-top: 15px;
-            border-radius: 6px;
-            font-size: 25px;
-            cursor: pointer;
-        } */
+        /* Responsive Styles */
 
-        /* .last-row {
-            margin: 10px;
-            margin-left: 30px;
-            margin-top: 15px;
-            border-radius: 6px;
-            font-size: 25px;
-            cursor: pointer;
-        } */
+        /* Tablets (max-width: 1024px) */
+        @media (max-width: 1024px) {
+            .parent {
+                width: 90%;
+                height: auto;
+                padding: 20px;
+            }
 
-        /* .equal {
-            background-color: rgb(0, 17, 255);
-            border: 2px solid rgb(143, 186, 176);
-            border-radius: 60px;
-            width: 455px;
-            font-size: 47px;
-            text-align: center;
+            button {
+                height: 50px;
+                width: 70px;
+                font-size: 22px;
+            }
+
+            #child1 {
+                font-size: 40px;
+            }
         }
 
-        .equal:hover {
-            font-size: 49px;
+        /* Mobile Devices (max-width: 768px) */
+        @media (max-width: 768px) {
+            .parent {
+                width: 60%;
+                padding: 15px;
+            }
 
+            button {
+                height: 45px;
+                width: 65px;
+                font-size: 20px;
+            }
+
+            #child1 {
+                font-size: 35px;
+                height: 70px;
+            }
         }
 
-        .white {
-            background-color: rgb(255, 155, 4);
+        /* Small Mobile Screens (max-width: 480px) */
+        @media (max-width: 480px) {
+            .parent {
+                width: 80% !important;
+                box-shadow: none;
+                border: none;
+                background-color: #222;
+            }
+
+            button {
+                height: 40px;
+                width: 60px;
+                font-size: 18px;
+                margin: 5px;
+            }
+
+            #child1 {
+                font-size: 30px;
+                height: 60px;
+                padding: 5px;
+            }
         }
 
-        .operators {
-            background-color: red;
-            font-size: 25px;
-        } */
-
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
         body {
             background-color: #111;
@@ -250,6 +244,17 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
+        @media screen and (max-width: 768px) {
+            .m-parent {
+                width: 80% !important;
+                background-color: red !important;
+            }
+        }
+
+
+        /* Media query for screens smaller than 480px (Mobile phones) */
+        
     </style>
 </head>
 
@@ -278,10 +283,10 @@
                 <button class="last-row operators" onclick="plu()">+</button>
                 <button class="operators" onclick="sub()">-</button>
                 <button class="operators" onclick="mul()">x</button>
-                <button class="operators" onclick="setVlue(this)"  data-value="/"> ÷ </button><br><br>
+                <button class="operators" onclick="setVlue(this)" data-value="/"> ÷ </button><br><br>
             </div>
             <div class="child3">
-                <button class="equal" onclick="calculateResult()">===</button>
+                <button class="equal" onclick="calculateResult()">=</button>
             </div>
         </div>
     </div>
@@ -292,11 +297,11 @@
 
 
 
-       
+
 
         let display = document.getElementById('child1');
 
-       
+
         function doubleZero() {
             let display = document.getElementById("child1");
 
@@ -405,6 +410,7 @@
             display.innerHTML += value
         }
     </script>
+    
 </body>
 
 </html>
