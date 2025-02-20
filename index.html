@@ -131,7 +131,7 @@
         }
         @media (max-width: 480px){
             .parent{
-                width: 410px;
+                width: 400px;
                 border: 2px solid lime;
                 display: flex;
                 flex-direction: column;
@@ -281,7 +281,7 @@
                 <button class="row1" onclick="calculatePercentage()">%</button>
                 <button class="row1" onClick="squareNumber()">x²</button>
                 <button class="row1" onclick="clea()">C</button>
-                <button class="last-row white" onclick="setVlue(this)" data-value="00">00</button>
+                <button class="last-row white" onclick="doubleZero()">00</button>
                 <button class="white" onclick="setVlue(this)" data-value="1">1</button>
                 <button class="white" onclick="setVlue(this)" data-value="2">2</button>
                 <button class="white" onclick="setVlue(this)" data-value="3">3</button>
@@ -417,9 +417,12 @@
 
 
         function setVlue(el) {
+            
             if (display.innerText == '0') {
                 display.innerHTML = ''
             }
+            
+            
             var value = el.dataset.value;
             display.innerHTML += value
         }
