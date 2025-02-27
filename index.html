@@ -1,462 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Calculator</title>
     <style>
-        /* General Styles (For Larger Screens) */
+        :root {
+            --bg-color: #1a1a1a;
+            --display-bg: #002200;
+            --neon-green: #00ff00;
+            --neon-purple: #9d00ff;
+            --button-bg: #333;
+            --button-active: #444;
+        }
+
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+
         body {
-            background-color: #111;
-            font-family: 'Orbitron', sans-serif;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: var(--bg-color);
             margin: 0;
-        }
-
-        .m-parent {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+
+        .calculator {
             width: 100%;
+            max-width: 360px;
+            padding: 20px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
         }
 
-        .parent {
-            border: 2px solid cyan;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            height: 570px;
-            width: 500px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px cyan;
-            padding: 10px;
-        }
-
-        #child1 {
-            border: 2px solid magenta;
-            border-radius: 5px;
-            height: 85px;
-            width: 90%;
-            background-color: black;
-            color: cyan;
-            font-size: 50px;
+        #display {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--display-bg);
+            color: var(--neon-green);
+            font-size: 2.5rem;
             text-align: right;
-            padding: 10px;
-            box-shadow: 0 0 10px magenta;
+            border: 2px solid var(--neon-green);
+            border-radius: 5px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--display-bg);
+        }
+
+        #display::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        #display::-webkit-scrollbar-track {
+            background: var(--display-bg);
+        }
+
+        #display::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
         }
 
         button {
-            height: 52px;
-            width: 73px;
-            margin: 10px;
-            background-color: black;
-            border: 2px solid cyan;
-            border-radius: 6px;
-            font-size: 25px;
-            color: cyan;
+            padding: 20px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: var(--button-bg);
+            color: white;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 10px cyan;
+            transition: all 0.15s ease;
+            user-select: none;
         }
 
-        button:hover {
-            font-size: 27px;
-            box-shadow: 0 0 20px cyan;
-            transform: scale(1.1);
+        button:active {
+            background: var(--button-active);
+            transform: scale(0.95);
         }
 
-        /* Responsive Styles */
-        @media (max-width: 1060px){
-            .parent{
-                width: 50%;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 15px;
-                margin-right: 10px;
-            }
-        }
-        @media (max-width: 1010px){
-            .parent{
-                width: 50%;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 15px;
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
-              align-items: center;
-            }
-        }
-        @media (max-width: 980px){
-            .parent{
-                width: 430px;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 15px;
-               display: flex;
-               flex-wrap: wrap;
-               justify-content: center;
-               align-items: center;
-            }
-            button{
-                width: 61px !important;
-            }
-            .equal{
-                width: 390px !important;
-            font-size: 40px;
-            }
-            #child1{
-                width: 390px;
-            }
-        }
-        
-        @media (max-width: 480px){
-            .parent{
-                width: 390px;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 15px;
-               display: flex;
-               flex-wrap: wrap;
-               justify-content: center;
-               align-items: center;
-            }
-            button{
-                width: 56px !important;
-                font-size: 22px !important;
-            }
-            .equal{
-                width: 370px !important;
-            font-size: 40px;
-            }
-            #child1{
-                width: 370px;
-            }
-        }
-        @media (max-width: 450px){
-            .parent{
-                width: 380px;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 10px;
-               display: flex;
-               flex-wrap: wrap;
-               justify-content: center;
-               align-items: center;
-            }
-            button{
-                width: 77px !important;
-                font-size: 30px !important;
-            }
-            .equal{
-                width: 360px !important;
-            font-size: 40px;
-            }
-            #child1{
-                width: 360px;
-            }
-        }
-        @media (max-width: 430px){
-            .parent{
-                width: 360px;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 15px;
-               display: flex;
-               flex-wrap: wrap;
-               justify-content: center;
-               align-items: center;
-            }
-            button{
-                width: 47px !important;
-                font-size: 17px !important;
-            }
-            .equal{
-                width: 340px !important;
-            font-size: 40px !important;
-            }
-            #child1{
-                width: 340px;
-            }
-        }
-
-        @media (max-width: 390px){
-            .parent{
-                width: 340px;
-                border: 2px solid lime;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .child2{
-                margin-left: 10px;
-               display: flex;
-               flex-wrap: wrap;
-               justify-content: center;
-               align-items: center;
-            }
-            button{
-                width: 45px !important;
-                font-size: 13px !important;
-            }
-            .equal{
-                width: 320px !important;
-            font-size: 40px;
-            }
-            #child1{
-                width: 320px;
-            }
-        }
-        
-        /* button {
-            height: 52px;
-            width: 73px;
-            margin: 10px;
-            background-color: black;
-            border: 2px solid cyan;
-            border-radius: 6px;
-            font-size: 25px;
-            color: cyan;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 10px cyan;
-        }
-
-        button:hover {
-            font-size: 27px;
-            box-shadow: 0 0 20px cyan;
-            transform: scale(1.1);
-        } */
-
-        .white {
-            background-color: black;
-            color: lime;
-            border-color: lime;
-            box-shadow: 0 0 10px lime;
-        }
-
-        .white:hover {
-            box-shadow: 0 0 20px lime;
-        }
-
-        .operators {
-            background-color: black;
-            color: magenta;
-            border-color: magenta;
-            box-shadow: 0 0 10px magenta;
-        }
-
-        .operators:hover {
-            box-shadow: 0 0 20px magenta;
+        .operator {
+            background: var(--neon-purple);
+            color: white;
         }
 
         .equal {
-            background-color: black;
-            color: yellow;
-            border-color: yellow;
-            box-shadow: 0 0 10px yellow;
-            border-radius: 60px;
-            width: 455px;
-            font-size: 47px;
+            background: var(--neon-green);
+            color: var(--bg-color);
         }
 
-        .equal:hover {
-            box-shadow: 0 0 15px yellow;
-            font-size: 49px;
+        .special {
+            background: #666;
         }
 
-       
+        @media (max-width: 400px) {
+            .calculator {
+                padding: 10px;
+            }
+            
+            button {
+                padding: 15px;
+                font-size: 1.2rem;
+            }
+            
+            #display {
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
-
 <body>
-    <div class="m-parent">
-        <div class="parent">
-            <div class="calculator-display" id="child1">0</div>
-            <div class="child2">
-                <button class="row1" onclick="del()">DEL</button>
-                <button class="row1" onclick="calculatePercentage()">%</button>
-                <button class="row1" onClick="squareNumber()">x²</button>
-                <button class="row1" onclick="clea()">C</button>
-                <button class="last-row white" onclick="doubleZero()">00</button>
-                <button class="white" onclick="setVlue(this)" data-value="1">1</button>
-                <button class="white" onclick="setVlue(this)" data-value="2">2</button>
-                <button class="white" onclick="setVlue(this)" data-value="3">3</button>
-                <button class="white" onclick="setVlue(this)" data-value="4">4</button>
-                <button class="white" onclick="setVlue(this)" data-value="5">5</button>
-                <button class="white" onclick="setVlue(this)" data-value="6">6</button>
-                <button class="white" onclick="setVlue(this)" data-value="7">7</button>
-                <button class="white" onclick="setVlue(this)" data-value="8">8</button>
-                <button class="white" onclick="setVlue(this)" data-value="9">9</button>
-                <button class="last-row white" onclick="setVlue(this)" data-value="0">0</button>
-
-                <button class="last-row white" onclick="dot()">.</button>
-                <button class="last-row operators" onclick="plu()">+</button>
-                <button class="operators" onclick="sub()">-</button>
-                <button class="operators" onclick="mul()">x</button>
-                <button class="operators" onclick="setVlue(this)" data-value="/"> ÷ </button><br><br>
-            </div>
-            <div class="child3">
-                <button class="equal" onclick="calculateResult()">=</button>
-            </div>
+    <div class="calculator">
+        <div id="display">0</div>
+        <div class="buttons">
+            <button class="special" data-action="clear">C</button>
+            <button class="special" data-action="delete">⌫</button>
+            <button class="operator" data-action="operator">%</button>
+            <button class="operator" data-action="operator">÷</button>
+            <button data-number="7">7</button>
+            <button data-number="8">8</button>
+            <button data-number="9">9</button>
+            <button class="operator" data-action="operator">×</button>
+            <button data-number="4">4</button>
+            <button data-number="5">5</button>
+            <button data-number="6">6</button>
+            <button class="operator" data-action="operator">−</button>
+            <button data-number="1">1</button>
+            <button data-number="2">2</button>
+            <button data-number="3">3</button>
+            <button class="operator" data-action="operator">+</button>
+            <button data-number="0">0</button>
+            <button data-number="00">00</button>
+            <button data-action="decimal">.</button>
+            <button class="equal" data-action="calculate">=</button>
         </div>
     </div>
 
-
-
     <script>
+        const display = document.getElementById('display');
+        let currentExpression = '';
+        let lastResult = '';
 
+        const operations = {
+            '+': (a, b) => a + b,
+            '-': (a, b) => a - b,
+            '×': (a, b) => a * b,
+            '÷': (a, b) => a / b,
+            '%': (a, b) => a % b
+        };
 
-
-
-
-        let display = document.getElementById('child1');
-
-
-        function doubleZero() {
-            let display = document.getElementById("child1");
-
-            // Prevent "00" when the display is just "0"
-            if (display.innerText === "0") return;
-
-            display.innerHTML += "00"
+        function updateDisplay(value) {
+            display.textContent = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            display.scrollLeft = display.scrollWidth;
         }
 
-        function dot() {
-            let display = document.getElementById("child1");
+        function handleNumber(number) {
+            if (lastResult !== '' && currentExpression === '') {
+                currentExpression = '';
+                lastResult = '';
+            }
 
-            // Get the last number entered (split by operators)
-            let lastNumber = display.innerText.split(/[\+\-\*\/]/).pop();
+            // Handle double zero logic
+            if (number === '00') {
+                if (currentExpression === '0' || currentExpression === '') {
+                    // If display is "0" or empty, do nothing
+                    return;
+                } else {
+                    // Otherwise, append "00"
+                    currentExpression += '00';
+                }
+            } else {
+                // Handle single digits
+                if (currentExpression === '0') {
+                    // Replace "0" with the new number
+                    currentExpression = number;
+                } else {
+                    // Append the number
+                    currentExpression += number;
+                }
+            }
 
-            // Prevent adding another dot if the last number already contains one
-            if (lastNumber.includes(".")) return;
-
-            display.innerHTML += `.`;
+            updateDisplay(currentExpression);
         }
 
-        function clea() {
-            display.innerHTML = '0'
+        function handleOperator(operator) {
+            const lastChar = currentExpression.slice(-1);
+            
+            if (operations[lastChar]) {
+                currentExpression = currentExpression.slice(0, -1) + operator;
+            } else {
+                currentExpression += operator;
+            }
+            updateDisplay(currentExpression.replace(/([+\-×÷%])/g, ' $1 '));
         }
 
-
-
-
-        if (display.scrollWidth > display.clientWidth) {
-            display.classList.add("shrink");
-        }
-        function squareNumber() {
-            let display = document.getElementById("child1");
-            if (display.innerText) {
-                display.innerText = Math.pow(eval(display.innerText), 2);
+        function handleDecimal() {
+            const parts = currentExpression.split(/[+\-×÷%]/);
+            const lastPart = parts[parts.length - 1];
+            
+            if (!lastPart.includes('.')) {
+                currentExpression += '.';
+                updateDisplay(currentExpression);
             }
         }
 
-        //operators functions
-
-        function plu() {
-            display.innerHTML += `+`
-        }
-
-        function sub() {
-            display.innerHTML += `-`
-        }
-
-        function divide() {
-            display.innerHTML += `/`
-        }
-
-        function mul() {
-            display.innerHTML += `*`
-        }
-
-        function del() {
-            var text = display.textContent;
-
-            var arr = Array.from(text);
-            arr.pop()
-
-            var str = arr.join("");
-
-            display.innerHTML = str
-
-            if (display.textContent.length == 0) {
-                display.innerHTML = '0';
-            }
-
-
-        }
-
-        function calculateResult() {
+        function calculate() {
             try {
-                var tex = document.getElementById('child1').innerText;
-                var res = eval(tex)
-                document.getElementById('child1').innerHTML = res;
+                const sanitized = currentExpression
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/%/g, '/100');
+                
+                const result = eval(sanitized);
+                lastResult = result;
+                currentExpression = result.toString();
+                updateDisplay(result);
             } catch (error) {
-                document.getElementById('child1').innerText = 'Error';
+                updateDisplay('Error');
+                currentExpression = '';
             }
         }
 
-        function calculatePercentage() {
-            let display = document.getElementById("child1");
-            let expression = display.innerText;
-
-            // If the expression is empty, do nothing
-            if (!expression) return;
-
-            // Convert last entered number into percentage
-            let lastNumberMatch = expression.match(/(\d+\.?\d*)$/); // Get last number
-            if (lastNumberMatch) {
-                let lastNumber = parseFloat(lastNumberMatch[0]);
-                let percentageValue = lastNumber / 100; // Convert to percentage
-                display.innerText = expression.replace(/(\d+\.?\d*)$/, percentageValue);
-            }
+        function clear() {
+            currentExpression = '';
+            lastResult = '';
+            updateDisplay('0');
         }
 
-
-        function setVlue(el) {
-            
-            if (display.innerText == '0') {
-                display.innerHTML = ''
-            }
-            
-            
-            var value = el.dataset.value;
-            display.innerHTML += value
+        function backspace() {
+            currentExpression = currentExpression.slice(0, -1);
+            updateDisplay(currentExpression || '0');
         }
+
+        // Event Delegation
+        document.querySelector('.buttons').addEventListener('click', (e) => {
+            const target = e.target;
+            
+            if (target.matches('[data-number]')) {
+                handleNumber(target.dataset.number);
+            }
+            else if (target.matches('[data-action="operator"]')) {
+                handleOperator(target.textContent);
+            }
+            else if (target.matches('[data-action="decimal"]')) {
+                handleDecimal();
+            }
+            else if (target.matches('[data-action="calculate"]')) {
+                calculate();
+            }
+            else if (target.matches('[data-action="clear"]')) {
+                clear();
+            }
+            else if (target.matches('[data-action="delete"]')) {
+                backspace();
+            }
+        });
+
+        // Keyboard Support
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') handleNumber(e.key);
+            if (e.key === '.') handleDecimal();
+            if (['+', '-', '*', '/'].includes(e.key)) handleOperator(e.key);
+            if (e.key === 'Enter' || e.key === '=') calculate();
+            if (e.key === 'Backspace') backspace();
+            if (e.key === 'Escape') clear();
+        });
     </script>
-    
 </body>
-
 </html>
